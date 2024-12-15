@@ -1,4 +1,6 @@
 # FPGA'25 Submission #49 ARIES
+[![DOI](https://zenodo.org/badge/903644715.svg)](https://doi.org/10.5281/zenodo.14492668)
+
 ## Installation Guide
 
 ### Prerequisites
