@@ -1,0 +1,14 @@
+.ipcache
+*.jou
+*.log
+build
+install
+*__pycache__/
+*pyc
+Aries
+.vscode
+sandbox/
+gemm_*
+mttkrp_*
+ttmc_*
+ttm_*

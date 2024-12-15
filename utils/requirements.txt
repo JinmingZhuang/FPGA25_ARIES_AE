@@ -1,0 +1,8 @@
+joblib
+ipykernel
+psutil
+rich
+pybind11
+numpy
+cmake
+bfloat16
