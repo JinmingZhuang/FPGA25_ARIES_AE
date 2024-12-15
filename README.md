@@ -13,8 +13,8 @@ AMD Vitis 2023.1
 
 ### 1. Download Aries & Submodules
 ```sh
-$ git clone --recursive https://github.com/arc-research-lab/Aries.git
-$ cd Aries
+$ git clone --recursive https://github.com/JinmingZhuang/FPGA25_ARIES_AE.git
+$ cd FPGA25_ARIES_AE
 ```
 
 ### 2. Setup Python Virtual Environment
@@ -50,9 +50,8 @@ cd example/example_gemm/fp32
 make all PROJECT_NAME=my_project
 ```
 
-#### Use optimized GEMM Code
+#### Compile the generated project
 ```sh
 cd my_project
-cp -r ${ARIES_HOME}/example/template_files/kernel_mm/aie_fp32_v1/kernel_gemm* ./aie
 make all
 ```
