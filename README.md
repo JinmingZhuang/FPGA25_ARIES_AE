@@ -1,4 +1,4 @@
-# Aries
+# FPGA'25 Submission #49 ARIES
 ## Installation Guide
 
 ### Prerequisites
