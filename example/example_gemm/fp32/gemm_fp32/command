@@ -1,0 +1,1 @@
+PLIOWidth=128, AXIWidth=512, ColNum=50, RowNum=8, ColOffset=0 , RowOffset=0, ColGap=0, CoreAlgo=1, FirstCol=6, NumShim=39, MidLine=24, ChalIn=3, ChalOut=3, EnableIOCons=false, L1_0=32, L1_1=32, L1_2=32, L2_0=11, L2_1=8, L2_2=4, L3_0=4, L3_1=6, L3_2=1, IOType=PLIO
