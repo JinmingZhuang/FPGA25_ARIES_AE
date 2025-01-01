@@ -87,19 +87,19 @@ class MLIRGenerator(ast.NodeVisitor):
         # Check if the target is a subscript (e.g., C_L1[i, j])
         if isinstance(node.target, ast.Subscript):
             target = self.parse_subscript(node.target)
+            
+            # Generate code for the right-hand side (e.g., A[i, k] * B[k, j])
+            # Will load the operands and perform the multiplication: res = A[i, k] * B[k, j]
+            res, rhs = self.parse_binop(node.value)
+            self.emit(f"{rhs}")
+            
             # Generate affine.load for the left-hand side
             v = self.get_var_name()
-
             target_ptr = target.split("[")[0]
             eleTypeName = self.get_eletype_name(target_ptr)
             typeName = self.get_MemRefType_name(target_ptr)
             load_lhs = f"{v} = affine.load %{target} : {typeName}"
             self.emit(f"{load_lhs}")
-
-            # Generate code for the right-hand side (e.g., A[i, k] * B[k, j])
-            # Will load the operands and perform the multiplication: res = A[i, k] * B[k, j]
-            res, rhs = self.parse_binop(node.value)
-            self.emit(f"{rhs}")
 
             # Perform addition (the "+=" operator)
             mac = self.get_var_name()
