@@ -15,6 +15,7 @@ mkfile_dir := $(dir $(mkfile_path))
 TARGET   = hw
 MODE	 = linux
 HOST_ARCH = aarch64
+PRE_BUILT = 1
 EN_PL = 1
 PLATFORM_REPO_PATHS = /tools/Xilinx/Vitis/2023.1/base_platforms/
 PLATFORM = ${PLATFORM_REPO_PATHS}/xilinx_vck190_base_202310_1/xilinx_vck190_base_202310_1.xpfm
@@ -41,6 +42,8 @@ AIE_O = aie_control_xrt.o
 GRAPH_O = adf_graph.o
 EMU_CMD = ./launch_hw_emu.sh
 PACKAGE_OUT = ./package.$(TARGET)
+PRE_BUILT_XSA = ./pre_built/${XSA}
+PRE_BUILT_LIBADF = ./pre_built/${LIBADF}
 RM = rm -f
 RMDIR = rm -rf
 ##########################################################################################################################################################
@@ -148,9 +151,14 @@ ${XSA}: ${LIBADF}
 	${VCC} -g -l $(CLFLAGS) $< -o $@
 endif
 
-
+aiehost: $(AIE_O)
+ifneq ($(PRE_BUILT),1)
 $(AIE_O): ./Work/ps/c_rts/aie_control_xrt.cpp
 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) $@ $<
+else
+$(AIE_O): pre_built/aie_control_xrt.o
+	cp -r pre_built/aie_control_xrt.o $@
+endif
 $(GRAPH_O): $(GRAPH) 
 	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) $@ $<
 
@@ -165,7 +173,22 @@ ${HOST_EXE}: ${AIE_O} $(GRAPH_O)
 	$(CXX) -o $@ $^ ${GCC_LIB}
 endif
 
-package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS package_${TARGET} 
+package: guard-ROOTFS guard-IMAGE guard-PLATFORM_REPO_PATHS package_${TARGET}
+ifeq ($(PRE_BUILT),1)	
+unzip:
+	rm -rf ./pre_built/${LIBADF}
+	unzip ./pre_built/libadf.zip -d ./pre_built
+package_${TARGET}: unzip ${PRE_BUILT_LIBADF} ${PRE_BUILT_XSA} ${HOST_EXE}
+	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
+		--package.out_dir $(PACKAGE_OUT) \
+		--package.rootfs ${ROOTFS} \
+		--package.kernel_image ${IMAGE} \
+		--package.boot_mode=sd \
+		--package.image_format=ext4 \
+		--package.defer_aie_run \
+		--package.sd_file ${HOST_EXE} ${PRE_BUILT_LIBADF} ${PRE_BUILT_XSA} -o ${XCLBIN}
+	@echo "COMPLETE: Package created."
+else
 package_${TARGET}: ${LIBADF} ${XSA} ${HOST_EXE}
 	${VCC} -p -t ${TARGET} -f ${PLATFORM} \
 		--package.out_dir $(PACKAGE_OUT) \
@@ -175,8 +198,8 @@ package_${TARGET}: ${LIBADF} ${XSA} ${HOST_EXE}
 		--package.image_format=ext4 \
 		--package.defer_aie_run \
 		--package.sd_file ${HOST_EXE} ${LIBADF} ${XSA} -o ${XCLBIN}
-
 	@echo "COMPLETE: Package created."
+endif
 
 run_hw_emu: launch_hw_emu.sh
 launch_hw_emu.sh: package_hw_emu
@@ -195,7 +218,7 @@ cleantemp:
 cleanhost:
 	-$(RMDIR) ${HOST_EXE} ${AIE_O} $(GRAPH_O) main.o
 cleanpac:
-	-$(RMDIR) mm_${TARGET}.xclbin.package_summary package.${TARGET}
+	-$(RMDIR) mm_${TARGET}.xclbin.package_summary package.${TARGET} ./pre_built/libadf.a
 cleanall: clean cleantemp cleansim cleanaie cleanhost cleanpac
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.hw run_app.sh 
