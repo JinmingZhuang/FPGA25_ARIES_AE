@@ -43,17 +43,16 @@ source utils/build-aries.sh
 export PATH=$PATH:$PWD/build/bin
 ```
 
+##  Artifact Evaluation Description
+### 1. GEMM (FP32, INT16, INT8)
+#### The designs that reproduce the result in Table 3 can be found in example/example_gemm. Please refer to the corresponding README file for compilation instructions.
+![Table 3](figures/table3.png)
 
-##  Test Examples
-### 1. GEMM (FP32)
-#### Generate code for Host + PL + AIE
-```sh
-cd example/example_gemm/fp32
-make all PROJECT_NAME=my_project
-```
+### 2. Tensor operations (MTTKRP, TTMC, TTM)
+#### The designs that reproduce the result in Table 4 can be found in example/example_${benchmarks}. Please refer to the corresponding README file for compilation instructions.
+<img src="figures/table4.png" alt="Table 4" width="500">
 
-#### Compile the generated project
-```sh
-cd my_project
-make all
-```
+### 3. ResNet Layers
+#### The designs that reproduce the result in Table 5 can be found in example/resnet_conv2x_layer. Please refer to the corresponding README file for compilation instructions.
+<img src="figures/table5.png" alt="Table 5" width="500">
+
