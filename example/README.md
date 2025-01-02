@@ -1,7 +1,7 @@
 ##  Reproduce ARIES Experiment Results
 ### We use the fp32 GEMM as an example to demonstrate the whole flow for end-to-end on-board testing. <br><br>
 
-## Step 1: VCK190 compilation environment setup
+## *** Step 1: VCK190 compilation environment setup
 
 ### Please make sure xilinx-versal-common-v2023.1 is downloaded from AMD Website:<br/>
 https://www.xilinx.com/member/forms/download/xef.html?filename=xilinx-versal-common-v2023.1_05080224.tar.gz
@@ -21,7 +21,7 @@ source /opt/petalinux/2023.1/environment-setup-cortexa72-cortexa53-xilinx-linux
 ```
 
 
-## Step 2: Compilation
+## ***  Step 2: Compilation
 ### Flow 1: Use pre-built binary files (Takes around 5 hours for compilation, after this jump to step 3). 
 ```sh
 cd example/example_gemm/fp32/gemm_fp32
@@ -46,7 +46,7 @@ cd my_project
 make package EDGE_COMMON_SW_PATH=${PATH_Include_xilinx-versal-common-v2023.1}
 ```
 
-## Step 3: On-board test
+## *** Step 3: On-board test
 
 ### 1. After step 2, sd_card.img should be generated under package_hw.
 
@@ -62,7 +62,7 @@ cd /run/media/mmcblk0p1/
 ./hostexe vck190_aie_base_graph_hw.xclbin
 ```
 
-##  Python3.12 Environment Setup for ARIES Examples
+## *** Python3.12 Environment Setup for ARIES Examples
 ### Before running the end-to-end flow, a virtual Python environment with version >3.12 is required to support the ARIES frontend. 
 
 #### For example, Ubuntu users could follow the instructions below to install Python3.12 and setup the environment.
