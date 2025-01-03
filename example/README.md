@@ -7,9 +7,9 @@
 https://www.xilinx.com/member/forms/download/xef.html?filename=xilinx-versal-common-v2023.1_05080224.tar.gz
 ### Unzip and install
 ```sh 
-tar -xf xilinx-versal-common-v2023.1.tar.gz
+tar -xf xilinx-versal-common-v2023.1_05080224.tar.gz
 cd xilinx-versal-common-v2023.1
-sh sdk.sh
+sudo sh sdk.sh
 ```
 
 ### Setup Vitis environment
@@ -73,4 +73,13 @@ python3.12 -m venv aries
 source aries/bin/activate
 python3.12 -m pip install --upgrade pip
 pip3 install numpy astor
+```
+
+#### If Python3.12 not found in Ubuntu 20.04, this link might be helpful or follow the instructions below: **[Python3.12 Installation](https://wiki.crowncloud.net/?How_to_Install_Python_3_12_on_Ubuntu_20_04)**<br>
+```sh
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update -y
+sudo apt-get install python3.12-dev
+sudo apt install python3.12-venv
 ```
