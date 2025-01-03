@@ -56,7 +56,7 @@ source utils/build-llvm.sh
 
 ### 4. Build MLIR-AIE Project 
 #### AIE License is required: 
-#### (1) please view the processes here: https://riallto.ai/prerequisites-aie-license.html <br> (2) Additionally, hostname can be found by running:<br>
+#### (1) please view the steps here: https://riallto.ai/prerequisites-aie-license.html <br> (2) Additionally, hostname can be found by running:<br>
 ```
 hostname
 ```
