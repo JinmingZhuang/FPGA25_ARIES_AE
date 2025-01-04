@@ -1,4 +1,5 @@
 FUNC:=ttmc
+MLIR:=${FUNC}
 PROJECT_NAME:=adf_graph_${FUNC}
 KERNEL_NAME:=kernel_${FUNC}
 PROJECT_PATH=./${PROJECT_NAME}
@@ -63,7 +64,7 @@ copyFile:
 test: doublebuffer
 
 tile:${PROJECT_PATH}/0_${FUNC}.tiled.mlir
-${PROJECT_PATH}/0_${FUNC}.tiled.mlir: ${FUNC}.mlir
+${PROJECT_PATH}/0_${FUNC}.tiled.mlir: ${MLIR}.mlir
 	aries-opt -o $@ $< \
 			-aries-tiling="tile-func-name=ttmc l1-tile-sizes=${L1_0},${L1_1},${L1_2},${L1_3},${L1_4} l2-tile-sizes=${L2_0},${L2_1},${L2_2},${L2_3},${L2_4} l3-tile-sizes=${L3_0},${L3_1},${L3_2},${L3_3},${L3_4}"
 
@@ -183,7 +184,7 @@ ${PROJECT_AIE_PATH}/adf_graph_test.cpp: ${PROJECT_PATH}/21_${FUNC}.doublebuffer.
 		-emit-aries-kernels
 
 pass: ${PROJECT_PATH}/${FUNC}.adf.mlir
-${PROJECT_PATH}/${FUNC}.adf.mlir: ${FUNC}.mlir
+${PROJECT_PATH}/${FUNC}.adf.mlir: ${MLIR}.mlir
 	aries-opt -o $@ $< \
 			-aries-tiling="tile-func-name=ttmc l1-tile-sizes=${L1_0},${L1_1},${L1_2},${L1_3},${L1_4} l2-tile-sizes=${L2_0},${L2_1},${L2_2},${L2_3},${L2_4} l3-tile-sizes=${L3_0},${L3_1},${L3_2},${L3_3},${L3_4}" \
 			-aries-func-extract \
@@ -215,7 +216,7 @@ ${PROJECT_PATH}/${FUNC}.adf.mlir: ${FUNC}.mlir
 
 translate: file_split kernel_link clean_kernel_vec
 file_split: tempfile
-	aries-opt <${FUNC}.mlir \
+	aries-opt <${MLIR}.mlir \
 		-aries-file-split="inputfile-name=temp.cpp path-name=${PROJECT_AIE_PATH}/" \
 		>/dev/null
 tempfile: ${PROJECT_AIE_PATH}/temp.cpp
@@ -251,7 +252,7 @@ ${PROJECT_PATH}/${KERNEL_NAME}_unroll.mlir: ${PROJECT_PATH}/${KERNEL_NAME}.mlir
 		--canonicalize
 
 kernel_file_split: kernel_cc
-	aries-opt <${FUNC}.mlir \
+	aries-opt <${MLIR}.mlir \
 		-aries-file-split="inputfile-name=temp.cc path-name=${PROJECT_AIE_PATH}/" \
 		>/dev/null
 kernel_cc: ${PROJECT_AIE_PATH}/temp.cc
