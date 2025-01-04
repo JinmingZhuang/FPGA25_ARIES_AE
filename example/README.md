@@ -22,25 +22,25 @@ source /opt/petalinux/2023.1/environment-setup-cortexa72-cortexa53-xilinx-linux
 
 
 ## ***  Step 2: Compilation
-### Flow 1: Use pre-built binary files (Takes around 5 hours for compilation, after this jump to step 3). 
+### *Flow 1: Use pre-built binary files (Within 10 minutes, after this jump to step 3). 
 ```sh
 cd example/example_gemm/fp32/gemm_fp32
 make package EDGE_COMMON_SW_PATH=${PATH_Include_xilinx-versal-common-v2023.1}
 ```
 
-### Flow 2: Run end-to-end flows.
-### Create ARIES Initial IR from user defined ARIES Python-based frontend. (Please refer here to setup the Python3.12 environment: [Python3.12 Setup](#python312-environment-setup-for-aries-examples))
+### *Flow 2: Run end-to-end flow. (Takes around 5 hours for Vitis compilation)
+### Create ARIES Initial IR from user defined ARIES Python-based frontend. (Please refer here to setup the Python3.12 environment: [Python3.12 Setup](#python312-environment-setup-for-aries-examples)) (Within 10 seconds)
 ```sh
 cd example/example_gemm/fp32
 python3.12 gemm_fp32.py >gemm.mlir
 ```
 
-### Generate code for Host + PL + AIE (Need to have ARIES installed, i.e.,  tools including aries-opt and aries-translate should run correctly)
+### Generate code for Host + PL + AIE (Need to have ARIES installed, i.e.,  tools including aries-opt and aries-translate should run correctly) (Within 10 seconds)
 ```sh
 make all PROJECT_NAME=my_project
 ```
 
-### Compile the generated project
+### Compile the generated project (Around 5 hours)
 ```sh
 cd my_project
 make package EDGE_COMMON_SW_PATH=${PATH_Include_xilinx-versal-common-v2023.1}

@@ -46,7 +46,6 @@ $ cd FPGA25_ARIES_AE
 ### 2. Setup Python Virtual Environment
 ```sh
 source utils/setup_python_packages.sh
-source sandbox/bin/activate
 ```
 
 ### 3. Build LLVM & MLIR Projects
