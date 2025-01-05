@@ -36,8 +36,9 @@ python3.12 gemm_fp32.py >gemm.mlir
 ```
 
 ### Generate code for Host + PL + AIE (Need to have ARIES installed, i.e.,  tools including aries-opt and aries-translate should run correctly) (Within 10 seconds)
+#### "PROJECT_NAME" can be set randomly, "MLIR" should have the same name as the generated IR last step without the file extension.
 ```sh
-make all PROJECT_NAME=my_project
+make all PROJECT_NAME=my_project MLIR=gemm
 ```
 
 ### Compile the generated project (Around 5 hours)
