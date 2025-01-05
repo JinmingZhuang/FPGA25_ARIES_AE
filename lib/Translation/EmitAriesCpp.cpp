@@ -2646,12 +2646,27 @@ int main(int argc, char **argv) {
   indent();
   os << "std::cout << \"Kernel run\\n\";\n";
   indent();
+  os << "double kernel_time_in_sec = 0;\n";
+  indent();
+  os << "std::chrono::duration<double> kernel_time(0);\n";
+  indent();
+  os << "auto kernel_start = std::chrono::high_resolution_clock::now();\n";
+  indent();
   os << krlRunName << ".start();\n";
   indent();
   os << krlRunName << ".wait();\n";
   indent();
-  os << "std::cout << \"Kernel run finished!\\n\";\n\n";
-
+  os << "auto kernel_end = std::chrono::high_resolution_clock::now();\n";
+  indent();
+  os << "kernel_time = std::chrono::duration<double>"
+     << "(kernel_end - kernel_start);\n";
+  indent();
+  os << "kernel_time_in_sec = kernel_time.count();\n";
+  indent();
+  os << "std::cout << \"Kernel run finished!\\n\";\n";
+  indent();
+  os << "std::cout << \"Total time is: \"<< kernel_time_in_sec" 
+     << "<< \"s\" << std::endl;\n";
   indent();
   os << "// Sync output buffer back to host\n";
   for (auto outMem : outMems){
