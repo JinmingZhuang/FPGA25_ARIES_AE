@@ -76,11 +76,11 @@ export PATH=$PATH:$PWD/build/bin
 
 ##  Artifact Evaluation Description
 ### 1. GEMM (FP32, INT16, INT8)
-#### The designs that reproduce the results in Table 3 can be found in example/example_gemm. Please refer to the corresponding README file for compilation instructions.
+#### The designs that reproduce the results in Table 3 can be found in example/example_gemm. Please refer to the corresponding README file for compilation instructions. The average exectution time for these three cases are FP32: 0.0288s, INT16: 0.0477s, INT8: 0.0299s.
 ![Table 3](figures/table3.png)
 
 ### 2. Tensor operations (MTTKRP, TTMC, TTM)
-#### The designs that reproduce the results in Table 4 can be found in example/example_${benchmarks}. Please refer to the corresponding README file for compilation instructions.
+#### The designs that reproduce the results in Table 4 can be found in example/example_${benchmarks}. Please refer to the corresponding README file for compilation instructions. The average exectution time for these three cases are TTM: 0.032s, TTMc: 5.406s, MTTKRP: 0.514s.
 <img src="figures/table4.png" alt="Table 4" width="500">
 
 ### 3. ResNet Layers
